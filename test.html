@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="myOr">
+
+<script src="angular/angular.js"></script>
+<script src="angular/angular-animate.js"></script>
+<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.3.js"></script>
+<script src="lib/angular-preload-image.js"></script>
+<script src="lib/ngStorage.js"></script>
+<script src="modules/ironGlry.js"></script>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<style>
+   html,body{
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+   }
+   body{
+      background-color: black;
+   }
+</style>
+<script>
+   var myApp = angular.module('myOr', ['IronGlry']);
+</script>
+<body>
+<div>
+<my-gallery feed='data/images.json' search="true" pagination="true" results-per-page="10" sorting="true" auto-rotate-time="3000"></my-gallery>
+</div>
+</body>
+</html>
+
+

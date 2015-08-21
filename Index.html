@@ -1,0 +1,142 @@
+<div ng-app="IronGlry" ng-controller="glryCtrl" class="col-md-12 img-rounded" id="main" >
+    <nav class="navbar navbar-inverse tools-menu">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand blink_me" data-target="#" href="javascript:;">Iron</a>
+            </div>
+            <!-- Collect all of the menu tools -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav"  ng-show="sorting=='true'">
+                    <li class="dropdown">
+                        <div class="btn-group form-group navbar-form navbar-left" dropdown is-open="status.isopen">
+                            <button id="single-button" type="button" class="btn " dropdown-toggle ng-disabled="disabled">
+                                SortBy <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" style="background-color: #C5C5C5;" role="menu" aria-labelledby="single-button">
+                                <li role="menuitem"><a href="#" style="color: black;" ng-click="sortProp='date'">Date</a></li>
+                                <li role="menuitem"><a href="#" style="color: black;" ng-click="sortProp='title'">Title</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <form action="" class="navbar-form navbar-left search-form searchImages" ng-show="search=='true'">
+                    <div class="form-group has-feedback">
+                        <label for="search" class="sr-only">Search</label>
+                        <input type="text" class="form-control" name="search" id="search" placeholder="search" ng-model="searchVal">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                </form>
+                <div class="nav navbar-nav smallPlay " ng-show="myInterval>0">
+                        <img src="img/black_play.png" id="darkPlay" ng-click="open(-1)"/>
+                </div>
+                <ul class="nav navbar-right">
+                    <li class="dropdown">
+                        <div class="btn-group form-group navbar-form navbar-left" dropdown is-open="status1.isopen">
+                            <button id="inPage" type="button" class="btn " dropdown-toggle ng-disabled="disabled">
+                                inPage <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" style="background-color: #C5C5C5;" role="menu" aria-labelledby="single-button">
+                                <li role="menuitem"><a href="#" ng-click="numPerPage=5">5</a></li>
+                                <li role="menuitem" ><a href="#" ng-click="numPerPage=10">10</a></li>
+                                <li role="menuitem" ><a href="#" ng-click="numPerPage=15">15</a></li>
+                                <li role="menuitem" ><a href="#" ng-click="numPerPage=20">20</a></li>                            </ul>
+                        </div>
+
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!-- View of the pictures, with loops (all / only this page) -->
+    <div class="col-md-12 smallImagesContainer">
+            <div class="row row-centered"  >
+                <div class="col-md-2 col-centered " style="padding:0;" ng-repeat="x in onPagePics">
+                    <div style="text-align: center;width:100%;"  ng-click="open($index)" ng-init="x.showTools=false" ng-mouseout="x.showTools=false;" ng-mouseover="x.showTools=true;" ng-mouseout="x.showTools=false;">
+                        <div class="toolsSmallRow col-centered  " ng-show="x.showTools" >
+                        <div class="smallImageTitle col-centered" style="position: relative;z-index:5;">
+                            <div class="col-centered row-centered" style="width: calc(100% - 30px); ">
+                            {{ x.title }}
+                                </div>
+                            <div  ng-click="blockImage($index)" class="deleteImage"><img src="img/delete.png" height="25"/></div>
+                        </div>
+                    </div>
+                        <span ng-mouseover="x.showTools=true;" ng-mouseout="x.showTools=false;">
+                            <img preload-image ng-src="{{ x.url }}" default-image="img/loading.gif"  fallback-image="img/placeholder.png"  style="cursor: pointer;background-color: #000000;border-color: #C5C5C5;" class=" img-thumbnail image smallImages" id="image{{$index}}"/>
+                        </span>
+
+                    <div class="" style="position: absolute" ng-show="x.showTools">
+                            <div class="smallImageDate row-centered">
+                                {{ x.date }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <div class="container" ng-show="pagination=='true'">
+            <center>
+            <pagination
+                    ng-model="currentPage"
+                    total-items="totalNumOfPics"
+                    items-per-page="numPerPage"
+                    max-size="maxSize"
+                    boundary-links="true"
+                    num-pages="numPages"
+                    >
+            </pagination>
+            </center>
+        </div>
+        <div clas="row-centered" ng-if="pagination=='true'">
+            <pre class="row-centered footer-pages">Page: {{currentPage}} / {{numPages}}</pre>
+        </div>
+    </div>
+</div>
+<!-- Big picutre modal -->
+<script type="text/ng-template" id="modal.html">
+    <div >
+        <carousel interval="myInterval" no-wrap="noWrapSlides">
+            <slide ng-repeat="slide in slides" active="slide.active">
+                <div>
+
+                    <div id="bigPlay" ng-class="{fade: startFade}"  ng-hide="hidden" ng-if="slideShowMode">
+                        <div class="container bigPlayDiv" ng-click="hideMe()">
+                            <img src="img/play_icon.png " height="150" width="150"/>
+                        </div>
+                    </div>
+                    <span  ng-mouseover="showToolbar()" ng-mouseout="hideToolbar()"><img ng-src="{{slide.url}}" default-image="img/loading.gif" fallback-image="img/placeholder.png" style="margin:auto;">
+                        <div class="carousel-caption bigToolbar" ng-show="showTool" >
+                          <p>{{slide.title}}</p>
+                        </div>
+                        <div class="footerToolbar bigToolbar" ng-show="showTool">
+                            <a ng-click="pause()" ng-if="slideShow"><img src="img/bg_play_pause%20.png" height="30" ng-if="slideShow" style="position:absolute;clip: rect(0, 62px, 30px, 30px);margin-left:-64px;"/></a>
+                            <a ng-click="play()" ng-if="!slideShow" style="cursor: pointer;"><img src="img/bg_play_pause.png" height="30" style="clip: rect(0, 30px, 30px, 0);position:absolute;margin-left:-32px;"/></a>
+                            <img src="img/ki_nav_download.png" height="30" style="cursor: pointer;"/>
+                            <img src="img/ki_nav_full.png" height="30" style="cursor: pointer;"/>
+                            <div style="position: absolute;float:left;font-size:10px;color:#c5c5c5">{{slide.date}}</div>
+                        </div>
+                    </span>
+                    </a>
+                </div>
+
+
+            </slide>
+        </carousel>
+    </div>
+</script>
+<!-- Carousel tools - to fixing bug in the library -->
+<script id="template/carousel/carousel.html" type="text/ng-template">
+    <div ng-mouseenter="pause()" ng-mouseleave="play()" class="carousel">
+        <ol class="carousel-indicators" ng-show="slides.length > 1">
+            <li ng-repeat="slide in slides" ng-class="{active: isActive(slide)}" ng-click="select(slide)"></li>
+        </ol>
+        <div class="carousel-inner" ng-transclude set-ng-animate="$parent.animate"></div>
+        <a ng-click="$parent.animate=true && prev()" class="carousel-control left" ng-show="slides.length > 1" style="cursor: pointer;"><span class="glyphicon glyphicon-chevron-left" style="cursor: pointer;"></span></a>
+        <a ng-click="$parent.animate=true && next()" class="carousel-control right" ng-show="slides.length > 1" style="cursor: pointer;"><span class="glyphicon glyphicon-chevron-right" style="cursor: pointer;"></span></a>
+    </div>
+</script>
