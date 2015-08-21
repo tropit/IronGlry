@@ -28,4 +28,5 @@ auto-rotate-time - How much time between every each slides(m/s).
 ----------
 
 The gallery remember the client last view (Searching value, sorting or resultPerPage) for his next time.
-** For testing the plugin in recommand the use the function clearAllStroge() in glryCtrl (clearing ngLocalStorage - if you want to changing attributes, in some of the cases you will need that.
+
+** For testing the plugin in recommand to use the function clearAllStroge() in glryCtrl (clearing ngLocalStorage - if you want to changing attributes, in some of the cases you will need that to get updated values)
