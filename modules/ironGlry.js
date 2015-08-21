@@ -11,21 +11,27 @@
         var firstLoad = true;
         var picsToShow;
 
+        // ***important tool to test the system (for changing feed with another vaild feed)
+        // clearAllStorage();
+
         // Defines scopes includes localStroage
         $scope.searchVal = $localStorage.searchVal;
         $scope.onPagePics = [];
         $scope.currentPage = $localStorage.currentPage || 1;
         $scope.maxSize = 5;
         $scope.sortProp = $localStorage.sortProp || 'title';
-        $scope.search = $scope.search || true;
-        $scope.pagination = $scope.pagination || true;
+        $scope.search = $scope.search || 'true';
+        $scope.pagination = $scope.pagination || 'true';
         $scope.numPerPage = $localStorage.numPerPage || $scope.resultsPerPage || 10;
-        $scope.sorting = $scope.sorting || true;
+        $scope.sorting = $scope.sorting || 'true';
         // check if inter are valid ( exsits and number)
         if($scope.myInterval==null||!(/^\d+$/.test($scope.myInterval)))
             $scope.myInterval = 4000;
         $scope.imagesOverBool = [];
         $scope.slideShowMode = false;
+
+
+        console.log($scope.search + "," + $scope.myInterval + "," + $scope.sorting + "," + $scope.pagination + "," + $scope.feed + "," + $scope.numPerPage);
         // getting Http request in the first of the runing and only after the callback continue
         $http.get($scope.feed).success(function(response){
                 if(isJson(response))
@@ -75,10 +81,10 @@
             $scope.imageOut = function (image) {
                 image.showTools = false;
                 image.width = "";
-            }
+            };
             $scope.pushOverBool = function (index) {
                 $scope.imagesOverBool[index] = false;
-            }
+            };
             $scope.$watch('sortProp', function () {
                 $scope.sortBy();
             });
@@ -171,6 +177,11 @@
             $scope.onPagePics = picsToCalculate.slice(begin, end);
             $scope.totalNumOfPics = picsToCalculate.length;
             $localStorage.currentPage = $scope.currentPage;
+        }
+
+        // Function to clear all of the localStorage (must for testing)
+        function clearAllStorage(){
+            $localStorage.$reset();
         }
 
         Array.prototype.remove = function(from, to) {

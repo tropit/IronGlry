@@ -35,7 +35,7 @@
                 <div class="nav navbar-nav smallPlay " ng-show="myInterval>0">
                         <img src="img/black_play.png" id="darkPlay" ng-click="open(-1)"/>
                 </div>
-                <ul class="nav navbar-right">
+                <ul class="nav navbar-right" ng-show="pagination=='true'">
                     <li class="dropdown">
                         <div class="btn-group form-group navbar-form navbar-left" dropdown is-open="status1.isopen">
                             <button id="inPage" type="button" class="btn " dropdown-toggle ng-disabled="disabled">
@@ -114,10 +114,10 @@
                           <p>{{slide.title}}</p>
                         </div>
                         <div class="footerToolbar bigToolbar" ng-show="showTool">
-                            <a ng-click="pause()" ng-if="slideShow"><img src="img/bg_play_pause%20.png" height="30" ng-if="slideShow" style="position:absolute;clip: rect(0, 62px, 30px, 30px);margin-left:-64px;"/></a>
+                            <a ng-click="pause()" ng-if="slideShow" style="cursor: pointer;"><img src="img/bg_play_pause%20.png" height="30" ng-if="slideShow" style="position:absolute;clip: rect(0, 62px, 30px, 30px);margin-left:-64px;"/></a>
                             <a ng-click="play()" ng-if="!slideShow" style="cursor: pointer;"><img src="img/bg_play_pause.png" height="30" style="clip: rect(0, 30px, 30px, 0);position:absolute;margin-left:-32px;"/></a>
-                            <img src="img/ki_nav_download.png" height="30" style="cursor: pointer;"/>
-                            <img src="img/ki_nav_full.png" height="30" style="cursor: pointer;"/>
+                            <a href="{{slide.url}}" download><img src="img/ki_nav_download.png" height="30" style="cursor: pointer;"/></a>
+                            <a href="{{slide.url}}" target="_blank"><img src="img/ki_nav_full.png" height="30" style="cursor: pointer;border:0;"/></a>
                             <div style="position: absolute;float:left;font-size:10px;color:#c5c5c5">{{slide.date}}</div>
                         </div>
                     </span>
